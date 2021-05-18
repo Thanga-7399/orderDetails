@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="getAll" format="json">
+      <types:shape format="weave" example="examples/orderDetailsGetAll.json"><![CDATA[%dw 2.0
+
+type getAll = Array<{|  orderId: String,   productCode: String,   quantityOrdered: Number {"typeId": "int"},   priceEach: Number {"typeId": "int"},   orderLineNumber: Number {"typeId": "int"}|}> {"example": "[{\\\"orderId\\\":\\\"O101\\\",\\\"productCode\\\":\\\"P1004\\\",\\\"quantityOrdered\\\":5,\\\"priceEach\\\":90000,\\\"orderLineNumber\\\":5}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="getById" format="json">
+      <types:shape format="weave" example="examples/orderDetailsGetByID.json"><![CDATA[%dw 2.0
+
+type getById = {|
+  orderId: String, 
+  productCode: String, 
+  quantityOrdered: Number {"typeId": "int"}, 
+  priceEach: Number {"typeId": "int"}, 
+  orderLineNumber: Number {"typeId": "int"}
+|} {"example": "{\\\"orderId\\\":\\\"O101\\\",\\\"productCode\\\":\\\"P1004\\\",\\\"quantityOrdered\\\":5,\\\"priceEach\\\":90000,\\\"orderLineNumber\\\":5}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a10172a5-e3dd-49eb-95dc-56c616010709">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="getAll"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c15aa42f-1b6f-4419-a510-7c78488870b2">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="getById"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

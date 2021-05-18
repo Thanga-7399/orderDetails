@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-test-suite.xml" />
+	<munit:test name="implementation-test-suite-getAllFlowTest" doc:id="1cd54f34-20d5-4d5c-8444-e574c182c40c" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="getAllFlow" doc:id="463613f0-4dca-4769-a044-1eb4460a371c" name="getAllFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5bb21718-b927-499c-9612-6fb50eef7d7d" message="Cant be null payload" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-getbyIdFowTest" doc:id="4da7deea-7084-42c2-98f6-9dd1fcbb7a8f" description="Test">
+		<munit:execution >
+			<munit:set-null-payload doc:name="Set null payload" doc:id="036d18c5-d447-475d-b236-e47449be2f08" />
+			<flow-ref doc:name="getbyIdFow" doc:id="2ec8b877-9274-490e-bd67-220423969266" name="getbyIdFow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="95982520-fba4-4908-8db6-776c8fc964a9" message="Can't be null payload" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-deleteFlowTest" doc:id="fc31edb2-e709-4c62-b0d3-7097b0c640d8" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="0e10f1ca-ea67-4b81-bf81-e1f3ea396f7f" >
+				<munit:payload value='{&#10;	"message": "orderDetails are deleted"&#10;}' mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to deleteFlow" doc:id="2b8f9307-0a31-4e6b-82a7-823d0ae349ba" name="deleteFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="411f12a5-f9cb-4e4b-ba04-58060757174a" actual="#[payload]" expected='#[message: "orderDetails are deleted"]' message="Cant be deleted"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-patchFlowTest" doc:id="f345ff5b-ad40-4025-a0ee-5156c071a5bf" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="7a0972d4-6f96-4d33-9382-818b71a39746" >
+				<munit:payload value='{&#10;	"message": "orderDetails are modified"&#10;}' mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to patchFlow" doc:id="db0e761d-ac99-43f2-ac6b-f42e2a94b0ea" name="patchFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="78fb6152-4929-43ba-9711-03cde0c0cffe" actual="#[payload]" expected='#[message: "orderDetails are modified"]' message="Cant be modified"/>
+		</munit:validation>
+	</munit:test>
+
+</mule>
